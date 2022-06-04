@@ -30,7 +30,7 @@ public class MainTest {
 //    }
 
     @Test
-    void openGoogle() {
+    void browseManga() {
         driver.get("https://m.manganelo.com/www");
         driver.manage().window().maximize();
 
@@ -38,7 +38,8 @@ public class MainTest {
 
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-        navigateIntoManga();
+        navigateToManga();
+        nextChapter();
     }
 
     public void searchManga() {
@@ -46,21 +47,22 @@ public class MainTest {
         searchManga.sendKeys("Modern Romanesco");
     }
 
-    public void navigateIntoManga() {
+    public void navigateToManga() {
         WebElement clickManga = driver.findElement(By.xpath("/html/body/div[1]/div[1]/div[2]/div[1]/form/div/ul/a/li"));
         clickManga.click();
+    }
 
-        int numElments = countChapters();
+    public void nextChapter() {
+        int countElement = countChapters();
 
         WebElement clickChapter = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div[1]/div[3]/ul/li[last()]"));
         clickChapter.click();
 
-        for(int i = 0; i < numElments - 1; i++) {
+        for(int i = 0; i < countElement - 1; i++) {
             WebElement clickNextChapter = driver.findElement(By.xpath("/html/body/div[1]/div[6]/div[1]/div/a[last()]"));
             clickNextChapter.click();
         }
     }
-
     public int countChapters() {
         int countElement = driver.findElements(By.tagName("li")).size();
         return countElement;
